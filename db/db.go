@@ -24,9 +24,9 @@ func DB(name string) *gorm.DB {
 
 	db, err := gorm.Open("mysql", uri)
 	if err != nil {
-		log.Fatal("CANNOT CONNECT TO DATABASE!")
+		log.Fatal("CANNOT CONNECT TO DATABASE :(")
 	}
 	db.AutoMigrate(models.Admin{}, models.Journal{})
-	log.Info("All clear, connected to database!")
+	log.Info("All clear, connected to database <3 :* ")
 	return db
 }
