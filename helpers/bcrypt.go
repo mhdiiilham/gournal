@@ -6,7 +6,7 @@ import (
 
 // HashPassword ...
 func HashPassword(password string) (string, error) {
-	hb, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.MaxCost)
+	hb, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.MinCost)
 	return string(hb), err
 }
 
