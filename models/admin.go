@@ -4,7 +4,7 @@ import "time"
 
 // Admin models
 type Admin struct {
-	ID               uint `json:"id" gorm:"primary_key;unique;AUTO_INCREMENT"`
+	ID             string `json:"id" gorm:"primary_key;unique;AUTO_INCREMENT"`
 	Fullname       string `json:"fullname" gorm:"type:varchar(50)"`
 	Email          string `json:"email" gorm:"type:varchar(100);unique_index"`
 	PasswordHashed string `json:"password_hashed" gorm:"type:varchar(60)"`

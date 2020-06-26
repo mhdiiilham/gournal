@@ -11,11 +11,12 @@ import (
 )
 
 // DB ...
-func DB(name string) *gorm.DB {
+func DB() *gorm.DB {
 	host := os.Getenv("MYSQL_HOST")
 	port := os.Getenv("MYSQL_PORT")
 	user := os.Getenv("MYSQL_USER")
 	pass := os.Getenv("MYSQL_USER_PASSWORD")
+	name := "journal"
 
 	uri := fmt.Sprintf(
 		"%s:%s@(%s:%s)/%s?charset=utf8&parseTime=True&loc=Local",

@@ -7,8 +7,7 @@ import (
 )
 
 func main() {
-	const APPNAME = "journal"
-	db.DB(APPNAME)
+	db.DB()
 	r := routers.Router()
 	log.Info("SERVER IS RUNNING")
 	r.Run(":8000")
