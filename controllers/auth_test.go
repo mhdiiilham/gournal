@@ -15,9 +15,9 @@ import (
 )
 
 type signupRes struct {
-	AccessToken string `json:"access_token"`
+	AccessToken   string `json:"access_token"`
 	AdminFullname string `json:"admin_fullname"`
-	Message string `json:"message"`
+	Message       string `json:"message"`
 }
 
 func TestSignUp(t *testing.T) {
