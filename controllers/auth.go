@@ -43,7 +43,7 @@ func CreateUser(c *gin.Context) {
 
 	token, err := helpers.CreateToken(admin.ID, admin.Email)
 	if err != nil {
-		log.Fatal("ERROR ON CREATING JWT TOKEN, err:", err.Error)
+		log.Fatal("ERROR ON CREATING JWT TOKEN, err:", err.Error())
 		c.JSON(http.StatusInternalServerError, gin.H{"errors": "INTERNAL SERVER ERROR!"})
 		return
 	}
