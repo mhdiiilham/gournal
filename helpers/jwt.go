@@ -5,18 +5,20 @@ import (
 	"os"
 	"strings"
 	"time"
+	"strconv"
 
 	"github.com/dgrijalva/jwt-go"
+	log "github.com/sirupsen/logrus"
 )
 
 // TokenMetaData ...
 type TokenMetaData struct {
-	ID    string
+	ID    uint64
 	Email string
 }
 
 // CreateToken ...
-func CreateToken(uid, email string) (string, error) {
+func CreateToken(uid uint64, email string) (string, error) {
 	atClaims := jwt.MapClaims{}
 	atClaims["uid"] = uid
 	atClaims["email"] = email
@@ -74,8 +76,9 @@ func ExtractTokenMetaData(authHeader string) (*TokenMetaData, error) {
 	}
 	claims, ok := token.Claims.(jwt.MapClaims)
 	if ok && token.Valid {
-		uid, ok := claims["uid"].(string)
-		if !ok {
+		uid, err := strconv.ParseUint(fmt.Sprintf("%v", claims["uid"]), 10, 64)
+		if err != nil {
+			log.Info(80, err)
 			return nil, err
 		}
 		email, ok := claims["email"].(string)

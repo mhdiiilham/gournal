@@ -5,7 +5,6 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/mhdiiilham/gournal/helpers"
-	log "github.com/sirupsen/logrus"
 )
 
 // Authentication ...
@@ -20,8 +19,8 @@ func Authentication() gin.HandlerFunc {
 		}
 		
 		metaData, err := helpers.ExtractTokenMetaData(authHeader)
-		log.Info(metaData.ID, metaData.Email)
 		c.Set("UID", metaData.ID)
+		c.Set("EMAIL", metaData.Email)
 		c.Next()
 	}
 }
