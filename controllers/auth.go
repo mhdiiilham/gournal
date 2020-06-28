@@ -4,7 +4,6 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/mhdiiilham/gournal/db"
 	"github.com/mhdiiilham/gournal/helpers"
 	"github.com/mhdiiilham/gournal/models"
 	log "github.com/sirupsen/logrus"
@@ -34,12 +33,7 @@ func CreateUser(c *gin.Context) {
 		PasswordHashed: hashedPassword,
 	}
 
-	res := db.DB().Save(&admin)
-	if res.Error != nil {
-		log.Fatal("ERROR ON SAVING NEW USER")
-		c.JSON(http.StatusInternalServerError, gin.H{"errors": "INTERNAL SERVER ERROR!"})
-		return
-	}
+	admin.Save()
 
 	token, err := helpers.CreateToken(admin.ID, admin.Email)
 	if err != nil {
