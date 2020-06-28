@@ -23,7 +23,32 @@ type AdminSignUp struct {
 	Password string `json:"password" binding:"required"`
 }
 
-// Save method
+// AdminSignIn ...
+type AdminSignIn struct {
+	Email    string `json:"email" binding:"required"`
+	Password string `json:"password" binding:"required"`
+}
+
+/*
+|--------------------------------------------------------------------------
+| Admin's Methods
+|--------------------------------------------------------------------------
+|
+| Here's methods that usually used.
+|
+*/
+
+// Save ...
 func (a *Admin) Save() {
 	db.DB().Save(a)
+}
+
+// FindOne ...
+func FindOne(email string) (Admin, error) {
+	var admin Admin
+	err := db.DB().Where("email = ?", email).First(&admin)
+	if err != nil {
+		return admin, err.Error
+	}
+	return admin, nil
 }

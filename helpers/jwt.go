@@ -3,7 +3,7 @@ package helpers
 import (
 	"fmt"
 	"os"
-	"strings"
+	// "strings"
 	"time"
 	"strconv"
 
@@ -33,11 +33,7 @@ func CreateToken(uid uint64, email string) (string, error) {
 }
 
 func extractToken(ha string) string {
-	token := strings.Split(ha, " ")
-	if len(token) == 2 {
-		return token[1]
-	}
-	return ""
+	return ha
 }
 
 func verifyToken(authHeader string) (*jwt.Token, error) {

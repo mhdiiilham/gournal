@@ -10,10 +10,16 @@ import (
 // Authentication ...
 func Authentication() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		authHeader := c.GetHeader("Authorization")
+		authHeader, errCookie := c.Cookie("auth_token")
+		if errCookie != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"errors": "TOKEN NOT VALID", "token": errCookie.Error()})
+			c.Abort()
+			return
+		}
+
 		err := helpers.TokenValidation(authHeader)
 		if err != nil {
-			c.JSON(http.StatusInternalServerError, gin.H{"errors": "TOKEN NOT VALID"})
+			c.JSON(http.StatusInternalServerError, gin.H{"errors": "TOKEN NOT VALID", "token": authHeader})
 			c.Abort()
 			return
 		}

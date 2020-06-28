@@ -42,9 +42,43 @@ func CreateUser(c *gin.Context) {
 		return
 	}
 
+	c.SetCookie("auth_token", token, 3600*24, "/", "localhost", false, true)
+
 	c.JSON(http.StatusCreated, gin.H{
 		"message": "User Created!",
-		"access_token": token,
 		"admin_fullname": admin.Fullname,
 	})
+}
+
+// Login ...
+func Login(c *gin.Context) {
+	var body models.AdminSignIn
+
+	// Validating user's input
+	err := c.ShouldBindJSON(&body)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"errors": err.Error()})
+		return
+	}
+
+	credential, err := models.FindOne(body.Email)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"errors": "Email / Password is Wrong!"})
+		return
+	}
+
+	token, err := helpers.CreateToken(credential.ID, credential.Email)
+	if err != nil {
+		log.Fatal("ERROR ON CREATING JWT TOKEN, err:", err.Error())
+		c.JSON(http.StatusInternalServerError, gin.H{"errors": "INTERNAL SERVER ERROR!"})
+		return
+	}
+
+	c.SetCookie("auth_token", token, 3600*24, "/", "localhost", false, true)
+
+	c.JSON(http.StatusOK, gin.H{
+		"message": "Login Success!",
+		"admin_fullname": credential.Fullname,
+	})
+
 }
