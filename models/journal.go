@@ -1,6 +1,10 @@
 package models
 
-import "time"
+import (
+	"time"
+
+	"github.com/mhdiiilham/gournal/db"
+)
 
 // Journal type
 type Journal struct {
@@ -10,4 +14,18 @@ type Journal struct {
 	Description    string `json:"description" gorm:"type:text"`
 	CreatedAt   time.Time `json:"created_at" gorm:"column:created_at"`
 	UpdatedAt   time.Time `json:"updated_at" gorm:"column:updated_at"`
+}
+
+/*
+|--------------------------------------------------------------------------
+| Jorunal's Methods
+|--------------------------------------------------------------------------
+|
+| Here's methods that usually used.
+|
+*/
+
+// Save ...
+func (j *Journal) Save() {
+	db.DB().Save(j)
 }
