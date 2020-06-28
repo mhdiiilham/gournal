@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/mhdiiilham/gournal/models"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 	log "github.com/sirupsen/logrus"
@@ -27,7 +26,7 @@ func DB() *gorm.DB {
 	if err != nil {
 		log.Fatal("CANNOT CONNECT TO DATABASE :(")
 	}
-	db.AutoMigrate(models.Admin{}, models.Journal{})
+
 	log.Info("All clear, connected to database <3 :* ")
 	return db
 }
