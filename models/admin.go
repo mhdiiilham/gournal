@@ -1,6 +1,10 @@
 package models
 
-import "time"
+import (
+	"time"
+
+	"github.com/mhdiiilham/gournal/db"
+)
 
 // Admin models
 type Admin struct {
@@ -17,4 +21,9 @@ type AdminSignUp struct {
 	Fullname string `json:"fullname" binding:"required"`
 	Email    string `json:"email" binding:"required"`
 	Password string `json:"password" binding:"required"`
+}
+
+// Save method
+func (a *Admin) Save() {
+	db.DB().Save(a)
 }
