@@ -15,6 +15,7 @@ func Router() *gin.Engine {
 		// Authenticated routes
 		v1.Use(middlewares.Authentication())
 		UploadImage(v1)
+		Journal(v1)
 	}
 	return r
 }
