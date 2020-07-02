@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"net/http"
+	"os"
 
 	"github.com/gin-gonic/gin"
 	"github.com/mhdiiilham/gournal/helpers"
@@ -47,7 +48,7 @@ func CreateUser(c *gin.Context) {
 		return
 	}
 
-	c.SetCookie("auth_token", token, 3600*24, "/", "localhost", false, true)
+	c.SetCookie("auth_token", token, 3600*24, "/", os.Getenv("APP_DOMAIN"), false, true)
 
 	data.AdminFullname = admin.Fullname
 	c.JSON(http.StatusCreated, gin.H{
@@ -82,7 +83,7 @@ func Login(c *gin.Context) {
 		return
 	}
 
-	c.SetCookie("auth_token", token, 3600*24, "/", "localhost", false, true)
+	c.SetCookie("auth_token", token, 3600*24, "/", os.Getenv("APP_DOMAIN"), false, true)
 
 	data.AdminFullname = credential.Fullname
 	c.JSON(http.StatusOK, gin.H{
@@ -96,7 +97,7 @@ func Login(c *gin.Context) {
 // Logout ...
 // Remove token from cookies
 func Logout(c *gin.Context) {
-	c.SetCookie("auth_token", "", 1, "/", "localhost", false, true)
+	c.SetCookie("auth_token", "", 1, "/", os.Getenv("APP_DOMAIN"), false, true)
 	c.JSON(http.StatusOK, gin.H{
 		"code": http.StatusOK,
 		"message": "Signout success",
