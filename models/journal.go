@@ -17,13 +17,17 @@ type Journal struct {
 	UpdatedAt   time.Time `json:"updated_at" gorm:"column:updated_at"`
 }
 
-
 // JournalInput from user
 type JournalInput struct {
 	Title       string `json:"title"`
 	Description string `json:"description"`
 	ImgurID     string `json:"imgur_id"`
 }
+
+// ListJournal ...
+type ListJournal []Journal
+
+// ======================================================================== //
 
 // Image saver
 type Image struct {
@@ -52,6 +56,20 @@ func (j *Journal) Save() {
 func (j *Journal) First(id string) {
 	db.DB().Where("id = ?", id).Preload("Image").First(j)
 }
+
+// Find ...
+func (j *ListJournal) Find() {
+	db.DB().Preload("Image").Find(j)
+}
+
+/*
+|--------------------------------------------------------------------------
+| Image's Methods
+|--------------------------------------------------------------------------
+|
+| Here's methods that usually used.
+|
+*/
 
 // Save Image
 func (i *Image) Save() {
