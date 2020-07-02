@@ -7,5 +7,9 @@ import (
 
 // Journal handlers
 func Journal(r *gin.RouterGroup) {
-	r.POST("/journals", handlers.PostJournal)
+	j := r.Group("/journals")
+	{
+		j.GET("/", handlers.GetJournals)
+		j.POST("/", handlers.PostJournal)
+	}
 }
