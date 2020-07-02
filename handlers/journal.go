@@ -26,3 +26,16 @@ func PostJournal(c *gin.Context) {
 		"data": journal,
 	})
 }
+
+// GetJournals ...
+// return list of journal
+func GetJournals(c *gin.Context) {
+	var journals models.ListJournal
+	journals.Find()
+
+	c.JSON(http.StatusOK, gin.H{
+		"code": http.StatusOK,
+		"message": "Success fetching list of journal",
+		"data": journals,
+	})
+}
