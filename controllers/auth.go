@@ -9,8 +9,13 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
+type resData struct {
+	AdminFullname string `json:"admin_fullname"`
+}
+
 // CreateUser ...
 func CreateUser(c *gin.Context) {
+	var data resData
 	var body models.AdminSignUp
 
 	// Validating user's input
@@ -44,14 +49,17 @@ func CreateUser(c *gin.Context) {
 
 	c.SetCookie("auth_token", token, 3600*24, "/", "localhost", false, true)
 
+	data.AdminFullname = admin.Fullname
 	c.JSON(http.StatusCreated, gin.H{
+		"code": http.StatusCreated,
 		"message": "User Created!",
-		"admin_fullname": admin.Fullname,
+		"data": data.AdminFullname,
 	})
 }
 
 // Login ...
 func Login(c *gin.Context) {
+	var data resData
 	var body models.AdminSignIn
 
 	// Validating user's input
@@ -76,9 +84,22 @@ func Login(c *gin.Context) {
 
 	c.SetCookie("auth_token", token, 3600*24, "/", "localhost", false, true)
 
+	data.AdminFullname = credential.Fullname
 	c.JSON(http.StatusOK, gin.H{
-		"message": "Login Success!",
-		"admin_fullname": credential.Fullname,
+		"code": http.StatusOK,
+		"message": "Login success",
+		"data": data.AdminFullname,
 	})
 
+}
+
+// Logout ...
+// Remove token from cookies
+func Logout(c *gin.Context) {
+	c.SetCookie("auth_token", "", 1, "/", "localhost", false, true)
+	c.JSON(http.StatusOK, gin.H{
+		"code": http.StatusOK,
+		"message": "Signout success",
+		"data": "",
+	})
 }

@@ -9,4 +9,5 @@ import (
 func AuthHandler(r *gin.RouterGroup) {
 	r.POST("/signup", controllers.CreateUser)
 	r.POST("/signin", controllers.Login)
+	r.POST("/signout", controllers.Logout)
 }
