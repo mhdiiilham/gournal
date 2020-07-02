@@ -1,5 +1,5 @@
 dev:
-		go run main.go
+	go build && ./gournal
 
 test:
-		go test ./controllers
+	go test ./controllers
