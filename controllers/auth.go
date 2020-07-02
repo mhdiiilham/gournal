@@ -61,7 +61,7 @@ func Login(c *gin.Context) {
 		return
 	}
 
-	credential, err := models.FindOne(body.Email)
+	credential, err := models.First(body.Email)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"errors": "Email / Password is Wrong!"})
 		return

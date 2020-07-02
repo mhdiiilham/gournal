@@ -43,8 +43,8 @@ func (a *Admin) Save() {
 	db.DB().Save(a)
 }
 
-// FindOne ...
-func FindOne(email string) (Admin, error) {
+// First ...
+func First(email string) (Admin, error) {
 	var admin Admin
 	err := db.DB().Where("email = ?", email).First(&admin)
 	if err != nil {
