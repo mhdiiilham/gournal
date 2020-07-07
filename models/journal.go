@@ -1,6 +1,7 @@
 package models
 
 import (
+	"strconv"
 	"time"
 
 	"github.com/mhdiiilham/gournal/db"
@@ -11,7 +12,7 @@ type Journal struct {
 	ID          uint64    `json:"id" gorm:"primary_key;unique;AUTO_INCREMENT"`
 	Title       string    `json:"title" gorm:"type:varchar(25)"`
 	Image       Image     `json:"image" gorm:"type:varchar(50)"`
-	ImageID     uint64	  `json:"image_id"`
+	ImageID     uint64    `json:"image_id"`
 	Description string    `json:"description" gorm:"type:text"`
 	CreatedAt   time.Time `json:"created_at" gorm:"column:created_at"`
 	UpdatedAt   time.Time `json:"updated_at" gorm:"column:updated_at"`
@@ -27,8 +28,6 @@ type JournalInput struct {
 // ListJournal ...
 type ListJournal []Journal
 
-// ======================================================================== //
-
 // Image saver
 type Image struct {
 	ID         uint64    `json:"id" gorm:"primary_key;unique;AUTO_INCREMENT"`
@@ -41,7 +40,7 @@ type Image struct {
 
 /*
 |--------------------------------------------------------------------------
-| Jorunal's Methods
+| Journal's Methods
 |--------------------------------------------------------------------------
 |
 | Here's methods that usually used.
@@ -52,14 +51,42 @@ type Image struct {
 func (j *Journal) Save() {
 	db.DB().Save(j)
 }
+
 // First ...
 func (j *Journal) First(id string) {
 	db.DB().Where("id = ?", id).Preload("Image").First(j)
 }
 
-// Find ...
-func (j *ListJournal) Find() {
-	db.DB().Preload("Image").Find(j)
+// Find function
+/*
+	This is a variadic function.
+	1. If the args is empty when
+		invoking this Function,
+		it will return 5 Journal's
+	1. If the args is given:
+		the first one is field, and the
+		second one is it value.
+		Return list of journal that match.
+		eg:
+			var journal Journal
+			journal.Find("title", "Hello")
+
+	ps:
+		1. Always ordered by "created_at"
+*/
+func (j *ListJournal) Find(page string, args ...string) {
+	var limit uint64
+	limit = 5
+	pages, _ := strconv.ParseUint(page, 10, 64)
+	skip := pages - 1
+	offset := skip * limit
+
+	switch len(args) {
+	case 2:
+		db.DB().Offset(offset).Limit(limit).Where("? = ?", args[0], args[1]).Preload("Image").Find(j)
+	default:
+		db.DB().Offset(offset).Limit(limit).Preload("Image").Find(j)
+	}
 }
 
 /*
