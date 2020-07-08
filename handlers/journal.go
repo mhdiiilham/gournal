@@ -14,16 +14,16 @@ func PostJournal(c *gin.Context) {
 	c.ShouldBindJSON(&req)
 	image.Find(req.ImgurID)
 	journal := models.Journal{
-		Title: req.Title,
+		Title:       req.Title,
 		Description: req.Description,
-		Image: image,
+		Image:       image,
 	}
 	journal.Save()
 
 	c.JSON(http.StatusCreated, gin.H{
-		"code": http.StatusCreated,
+		"code":    http.StatusCreated,
 		"message": "journal posted!",
-		"data": journal,
+		"data":    journal,
 	})
 }
 
@@ -31,11 +31,26 @@ func PostJournal(c *gin.Context) {
 // return list of journal
 func GetJournals(c *gin.Context) {
 	var journals models.ListJournal
-	journals.Find()
+	cp := c.Query("pages")
+	field := c.Query("field")
+	value := c.Query("value")
+	if field == "" && value == "" {
+		if cp == "" {
+			journals.Find("1")
+		} else {
+			journals.Find(cp)
+		}
+	} else {
+		if cp == "" {
+			journals.Find("1", field, value)
+		} else {
+			journals.Find(cp, field, value)
+		}
+	}
 
 	c.JSON(http.StatusOK, gin.H{
-		"code": http.StatusOK,
+		"code":    http.StatusOK,
 		"message": "Success fetching list of journal",
-		"data": journals,
+		"data":    journals,
 	})
 }

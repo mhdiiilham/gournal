@@ -72,6 +72,7 @@ func (j *Journal) First(id string) {
 			journal.Find("title", "Hello")
 
 	ps:
+		FILTERING IS NOT WORKING, YET!
 		1. Always ordered by "created_at"
 */
 func (j *ListJournal) Find(page string, args ...string) {
@@ -83,9 +84,11 @@ func (j *ListJournal) Find(page string, args ...string) {
 
 	switch len(args) {
 	case 2:
-		db.DB().Offset(offset).Limit(limit).Where("? = ?", args[0], args[1]).Preload("Image").Find(j)
-	default:
 		db.DB().Offset(offset).Limit(limit).Preload("Image").Find(j)
+		break
+	case 0:
+		db.DB().Offset(offset).Limit(limit).Preload("Image").Find(j)
+		break
 	}
 }
 
