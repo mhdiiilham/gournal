@@ -68,3 +68,20 @@ func GetOneJournal(c *gin.Context) {
 		"data":    journal,
 	})	
 }
+
+// UpdateJournal ...
+func UpdateJournal(c *gin.Context) {
+	var journal models.Journal
+	journal.First(c.Param("id"))
+
+	if journal.ID < 1 {
+		c.JSON(http.StatusNotFound, gin.H{
+			"code": http.StatusNotFound,
+			"message": "Journal Not Found!",
+			"data": journal,
+		})
+		return
+	}
+
+	
+}
