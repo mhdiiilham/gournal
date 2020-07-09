@@ -11,5 +11,6 @@ func Journal(r *gin.RouterGroup) {
 	{
 		j.GET("/", handlers.GetJournals)
 		j.POST("/", handlers.PostJournal)
+		j.GET("/:id", handlers.GetOneJournal)
 	}
 }

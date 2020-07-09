@@ -1,9 +1,11 @@
 package handlers
 
 import (
+	"fmt"
+	"net/http"
+
 	"github.com/gin-gonic/gin"
 	"github.com/mhdiiilham/gournal/models"
-	"net/http"
 )
 
 // PostJournal ...
@@ -53,4 +55,16 @@ func GetJournals(c *gin.Context) {
 		"message": "Success fetching list of journal",
 		"data":    journals,
 	})
+}
+
+// GetOneJournal ...
+func GetOneJournal(c *gin.Context) {
+	var journal models.Journal
+	journal.First(c.Param("id"))
+
+	c.JSON(http.StatusOK, gin.H{
+		"code":    http.StatusOK,
+		"message": fmt.Sprintf(`Success fecthing journal "%v"`, journal.Title),
+		"data":    journal,
+	})	
 }
