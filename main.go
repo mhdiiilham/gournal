@@ -1,6 +1,8 @@
 package main
 
 import (
+	"os"
+
 	"github.com/gin-contrib/cors"
 	"github.com/mhdiiilham/gournal/models"
 	"github.com/mhdiiilham/gournal/routers"
@@ -12,5 +14,5 @@ func main() {
 	r := routers.Router()
 	r.Use(cors.Default())
 	log.Info("SERVER IS RUNNING")
-	r.Run(":8000")
+	r.Run(os.Getenv("GO_PORT"))
 }
