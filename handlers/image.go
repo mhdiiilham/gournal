@@ -71,7 +71,6 @@ func UploadImage(c *gin.Context) {
 	req.Header.Set("Content-Type", writer.FormDataContentType())
 	req.Header.Set("Authorization", "Client-ID "+os.Getenv("IMGUR_CLIENT_ID"))
 
-	"data":    "-",
 	client := &http.Client{}
 	resp, err := client.Do(req)
 	if err != nil {
