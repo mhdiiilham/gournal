@@ -61,6 +61,7 @@ func CreateUser(c *gin.Context) {
 // Login ...
 func Login(c *gin.Context) {
 	var data resData
+	var credential models.Admin
 	var body models.AdminSignIn
 
 	// Validating user's input
@@ -70,8 +71,8 @@ func Login(c *gin.Context) {
 		return
 	}
 
-	credential, err := models.First(body.Email)
-	if err != nil {
+	credential.First(body.Email)
+	if credential.ID  <= 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"errors": "Email / Password is Wrong!"})
 		return
 	}
