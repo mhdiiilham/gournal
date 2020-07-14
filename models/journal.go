@@ -3,8 +3,6 @@ package models
 import (
 	"strconv"
 	"time"
-
-	"github.com/mhdiiilham/gournal/db"
 )
 
 // Journal type
@@ -49,12 +47,12 @@ type Image struct {
 
 // Save ...
 func (j *Journal) Save() {
-	db.DB().Save(j)
+	DB.Save(j)
 }
 
 // First ...
 func (j *Journal) First(id string) {
-	db.DB().Where("id = ?", id).Preload("Image").First(j)
+	DB.Where("id = ?", id).Preload("Image").First(j)
 }
 
 // Find function
@@ -84,10 +82,10 @@ func (j *ListJournal) Find(page string, args ...string) {
 
 	switch len(args) {
 	case 2:
-		db.DB().Offset(offset).Limit(limit).Preload("Image").Find(j)
+		DB.Offset(offset).Limit(limit).Preload("Image").Find(j)
 		break
 	case 0:
-		db.DB().Offset(offset).Limit(limit).Preload("Image").Find(j)
+		DB.Offset(offset).Limit(limit).Preload("Image").Find(j)
 		break
 	}
 }
@@ -103,10 +101,10 @@ func (j *ListJournal) Find(page string, args ...string) {
 
 // Save Image
 func (i *Image) Save() {
-	db.DB().Save(&i)
+	DB.Save(&i)
 }
 
 // Find Image
 func (i *Image) Find(id string) {
-	db.DB().Where("id = ?", id).First(&i)
+	DB.Where("id = ?", id).First(&i)
 }

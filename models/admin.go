@@ -1,10 +1,6 @@
 package models
 
-import (
-	"time"
-
-	"github.com/mhdiiilham/gournal/db"
-)
+import "time"
 
 // Admin models
 type Admin struct {
@@ -40,15 +36,10 @@ type AdminSignIn struct {
 
 // Save ...
 func (a *Admin) Save() {
-	db.DB().Save(a)
+	DB.Save(a)
 }
 
 // First ...
-func First(email string) (Admin, error) {
-	var admin Admin
-	err := db.DB().Where("email = ?", email).First(&admin)
-	if err != nil {
-		return admin, err.Error
-	}
-	return admin, nil
+func (a *Admin) First(email string) {
+	DB.Where("email = ?", email).First(a)
 }
