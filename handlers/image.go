@@ -41,7 +41,6 @@ func UploadImage(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"code":    http.StatusInternalServerError,
 			"message": "Internal server error!",
-			"data":    "-",
 		})
 		return
 	}
@@ -52,7 +51,6 @@ func UploadImage(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"code":    http.StatusInternalServerError,
 			"message": "Internal server error!",
-			"data":    "-",
 		})
 		return
 	}
@@ -67,13 +65,13 @@ func UploadImage(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"code":    http.StatusInternalServerError,
 			"message": "Internal server error!",
-			"data":    "-",
 		})
 		return
 	}
 	req.Header.Set("Content-Type", writer.FormDataContentType())
 	req.Header.Set("Authorization", "Client-ID "+os.Getenv("IMGUR_CLIENT_ID"))
 
+	"data":    "-",
 	client := &http.Client{}
 	resp, err := client.Do(req)
 	if err != nil {
