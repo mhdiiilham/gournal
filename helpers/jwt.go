@@ -2,12 +2,11 @@ package helpers
 
 import (
 	"fmt"
-	"os"
-	// "strings"
-	"time"
 	"strconv"
+	"time"
 
 	"github.com/dgrijalva/jwt-go"
+	"github.com/mhdiiilham/gournal/helpers"
 	log "github.com/sirupsen/logrus"
 )
 
@@ -25,7 +24,7 @@ func CreateToken(uid uint64, email string) (string, error) {
 	atClaims["exp"] = time.Now().Add(time.Hour * 24).Unix()
 
 	at := jwt.NewWithClaims(jwt.SigningMethodHS256, atClaims)
-	token, err := at.SignedString([]byte(os.Getenv("JWT_SECRET")))
+	token, err := at.SignedString([]byte(helpers.Getenv("JWT_SECRET")))
 	if err != nil {
 		return "", err
 	}
@@ -42,7 +41,7 @@ func verifyToken(authHeader string) (*jwt.Token, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
 		}
-		return []byte(os.Getenv("JWT_SECRET")), nil
+		return []byte(helpers.Getenv("JWT_SECRET")), nil
 	})
 	if err != nil {
 		return nil, err

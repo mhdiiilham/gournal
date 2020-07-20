@@ -1,7 +1,6 @@
 package main
 
 import (
-	"os"
 
 	"github.com/gin-contrib/cors"
 	"github.com/mhdiiilham/gournal/models"
@@ -10,9 +9,11 @@ import (
 )
 
 func main() {
+	const PORT = ":8080"
 	models.ConnectDatabase()
 	r := routers.Router()
 	r.Use(cors.Default())
 	log.Info("SERVER IS RUNNING")
-	r.Run(os.Getenv("GO_PORT"))
+	models.DB.AutoMigrate(models.Admin{}, models.Image{}, models.Journal{})
+	r.Run(PORT)
 }
